@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  mongo-server:
+    build: 'mongo-server/'
+
+    # image: 'mongo:latest'
+    # command: mongod --port 27018
+    ports:
+        # - '27018:27018'
+        - '27017:27017'
+    volumes:
+      - ./mongo-server/data:/data
+ 
+    networks:
+        - net1
+  
+  client:
+    build: 'client/'
+
+    # image: 'ubuntu:latest'
+    command: bash
+    depends_on: 
+        - mongo-server
+    networks:
+        - net1
+
+networks:
+    net1:
+        driver: bridge
